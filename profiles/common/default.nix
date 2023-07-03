@@ -4,12 +4,12 @@
 
 let
   baseProfile = "${inputs.base-profile}";
-  anycastProfile = "${inputs.anycast-profile}";
 in
 {
   imports = [
     baseProfile
 
+    ./deployment.nix
     ./users
   ];
 
