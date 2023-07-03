@@ -6,9 +6,7 @@ inputs:
 
     nixpkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
-      overlays = [
-        (import ./packages inputs)
-      ];
+      overlays = [];
     };
 
     specialArgs = { inherit inputs; };
