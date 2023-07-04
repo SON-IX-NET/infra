@@ -39,5 +39,12 @@ in
       address = ip4_net;
       prefixLength = ip4_cidr;
     };
+    
+    sops.defaultSopsFile = ./secrets.yaml;
+    
+    profiles.ixp-manager = {
+      enable = true;
+      fqdn = "ixp-manager.lab.wobcom.de";
+    };
   };
 }

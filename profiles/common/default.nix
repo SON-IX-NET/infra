@@ -11,6 +11,9 @@ in
 
     ./deployment.nix
     ./users
+
+    ../ixp-manager
+    ../../modules
   ];
 
   base.copyConfig.sources = ../..;
