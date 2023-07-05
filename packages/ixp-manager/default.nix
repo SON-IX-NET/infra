@@ -9,10 +9,6 @@ let
     php = php82;
   });
 
-  # for some reason, the patch fails when we try to apply it in the patch phase
-  # so wie apply it manually in the postInstall phase
-  patch = pkgs.copyPathToStore ./schema-fix.patch;
-
 in package.override rec {
   name = pname + "-" + version;
   pname = "ixp-manager";
@@ -26,10 +22,6 @@ in package.override rec {
   };
 
   postInstall = ''
-    # fix broken DB schema
-    patch -p1 -i ${patch}
-    rm -f $out/database/migrations/2020_09_18_095136_delete_ixp_table.php
-    # create symlinks to state dir
     rm -rf $out/bootstrap/cache $out/storage $out/.env
     ln -s ${dataDir}/.env $out/.env
     ln -s ${dataDir}/storage $out/storage

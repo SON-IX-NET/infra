@@ -32,16 +32,15 @@ in
 
     services.mysql = {
       enable = true;
-      package = pkgs.mariadb;
-      ensureDatabases = [ "ixpmanager" ];
-      ensureUsers = [
-        {
-          name = "ixpmanager";
-          ensurePermissions = {
-            "ixpmanager.*" = "ALL PRIVILEGES";
-          };
-        }
-      ];
+      package = pkgs.mysql80;
+      initialScript = (pkgs.writeText "mysql-init-script" ''
+        CREATE DATABASE `ixpmanager`;
+        CREATE USER `ixpmanager`@`localhost`;
+        GRANT ALL ON `ixpmanager`.* TO `ixpmanager`@`localhost`;
+        GRANT SYSTEM_USER ON *.* TO `ixpmanager`@`localhost`;
+        GRANT SUPER ON *.* TO `ixpmanager`@`localhost`;
+        FLUSH PRIVILEGES;
+      '');
     };
 
     sops.secrets = {
@@ -81,6 +80,9 @@ in
       };
       nginx = {
         default = true;
+        forceSSL = true;
+        sslCertificate = config.base.acme.fullChain;
+        sslCertificateKey = config.base.acme.key;
       };
       settings = {
         APP_URL = "https://ixp-manager.lab.wobcom.de";
