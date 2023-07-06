@@ -170,6 +170,7 @@ in
               Name of the skin used to override the style and some static pages.
               See the for more information about [skinning](https://docs.ixpmanager.org/features/skinning/) and [static content](https://docs.ixpmanager.org/features/static-content/).
               Files for the skin named `custom` can be placed in the `''${dataDir}/skin` directory.
+              Custom config options for templating can be defined in `''${dataDir}/custom.php`.
             '';
           };
 
@@ -300,6 +301,7 @@ in
       "f ${cfg.dataDir}/.env.appkey                  0600 ${cfg.user} ${cfg.group} - -"
       "f ${cfg.dataDir}/.env.generated               0600 ${cfg.user} ${cfg.group} - -"
       "f ${cfg.dataDir}/version                      0600 ${cfg.user} ${cfg.group} - -"
+      "f ${cfg.dataDir}/custom.php                   0600 ${cfg.user} ${cfg.group} - -"
       "d ${cfg.dataDir}/storage                      0700 ${cfg.user} ${cfg.group} - -"
       "d ${cfg.dataDir}/storage/app                  0700 ${cfg.user} ${cfg.group} - -"
       "d ${cfg.dataDir}/storage/debugbar             0700 ${cfg.user} ${cfg.group} - -"
@@ -352,6 +354,11 @@ in
 
         # config setup
         ${pkgs.envsubst}/bin/envsubst -i ${configFile} -o ${cfg.dataDir}/.env.generated
+
+        # init custom config options
+        if [[ ! -s ${cfg.dataDir}/custom.php ]]; then
+          cat ${package}/config/custom.php.dist > ${cfg.dataDir}/custom.php
+        fi
 
         # init .env file if it is empty
         if [[ ! -s ${cfg.dataDir}/.env ]]; then

@@ -27,6 +27,7 @@ in package.override rec {
     ln -s ${dataDir}/storage $out/storage
     ln -s ${dataDir}/cache $out/bootstrap/cache
     ln -s ${dataDir}/skin $out/resources/skins/custom
+    ln -s ${dataDir}/custom.php $out/config/custom.php
   '';
 
   meta = with lib; {
