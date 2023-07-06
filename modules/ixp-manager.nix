@@ -163,7 +163,12 @@ in
           DB_HOST = mkOption {
             type = types.str;
             default = "localhost";
-            description = mdDoc "Address of the MySQL/MariaDB server.";
+            description = mdDoc ''
+              Address of the MySQL server.
+
+              **Note**: IXP-Manager is **not** compatible with MariaDB and needs a MySQL server.
+              See the [manual](https://docs.ixpmanager.org/install/manually/#database-setup) for the setup of the database.
+            '';
           };
 
           DB_DATABASE = mkOption {
@@ -174,13 +179,13 @@ in
 
           DB_USERNAME = mkOption {
             type = types.str;
-            description = mdDoc "Name of the MySQL/MariaDB user.";
+            description = mdDoc "Name of the MySQL user.";
           };
 
           DB_PASSWORD = mkOption {
             type = types.str;
             description = mdDoc ''
-              Password of the MySQL/MariaDB user. Use the `environmentFile` option to prevent the password from being written world-readable to the Nix-Store.
+              Password of the MySQL user. Use the `environmentFile` option to prevent the password from being written world-readable to the Nix-Store.
             '';
           };
         };
@@ -321,7 +326,7 @@ in
         ++ (optional (cfg.settings.DB_HOST == "localhost") "mysql.service");
       wantedBy = [ "multi-user.target" ];
       restartTriggers = [ package configFile ];
-      path = [ pkgs.mariadb pkgs.gnused pkgs.gnugrep pkgs.openssl ];
+      path = [ pkgs.mysql80 pkgs.gnused pkgs.gnugrep pkgs.openssl ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
