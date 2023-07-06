@@ -163,6 +163,16 @@ in
             description = mdDoc "Web address where IXP Manager is accessed.";
           };
 
+          VIEW_SKIN = mkOption {
+            type = types.str;
+            default = "custom";
+            description = mdDoc ''
+              Name of the skin used to override the style and some static pages.
+              See the for more information about [skinning](https://docs.ixpmanager.org/features/skinning/) and [static content](https://docs.ixpmanager.org/features/static-content/).
+              Files for the skin named `custom` can be placed in the `''${dataDir}/skin` directory.
+            '';
+          };
+
           DB_HOST = mkOption {
             type = types.str;
             default = "localhost";
@@ -299,6 +309,7 @@ in
       "d ${cfg.dataDir}/storage/framework/views      0700 ${cfg.user} ${cfg.group} - -"
       "d ${cfg.dataDir}/storage/logs                 0700 ${cfg.user} ${cfg.group} - -"
       "d ${cfg.dataDir}/cache                        0700 ${cfg.user} ${cfg.group} - -"
+      "d ${cfg.dataDir}/skin                         0700 ${cfg.user} ${cfg.group} - -"
     ];
 
     systemd.services.ixp-manager-scheduler = {
