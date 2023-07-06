@@ -9,11 +9,14 @@ let
   };
 
   enqoute = x: "\"${x}\"";
-  configFile = pkgs.writeText "ixp-manager-config" (lib.generators.toKeyValue {
-    mkKeyValue = lib.generators.mkKeyValueDefault {
-      mkValueString = enqoute;
-    } "=";
-  } settings);
+  configFile = pkgs.writeText "ixp-manager-config" (lib.generators.toKeyValue
+    {
+      mkKeyValue = lib.generators.mkKeyValueDefault
+        {
+          mkValueString = enqoute;
+        } "=";
+    }
+    settings);
 
   settings = {
     APP_DEBUG = "false";
@@ -372,7 +375,7 @@ in
           if [[ ! -s ${cfg.dataDir}/version ]]; then
             # read initial admin password
             IXPM_ADMIN_PW=$(cat ${cfg.init.adminPasswordFile})
-            
+
             # password hash generation snippet from https://docs.ixpmanager.org/install/manually/
             ADMIN_PW_SALT=$(openssl rand -base64 16)
             HASH_PW=$( ${phpPackage}/bin/php -r "echo escapeshellarg( crypt( '$IXPM_ADMIN_PW', sprintf( '\$2a\$%02d\$%s', 10, substr( '$ADMIN_PW_SALT', 0, 22 ) ) ) );" )
