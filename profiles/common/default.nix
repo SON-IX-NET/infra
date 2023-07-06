@@ -8,12 +8,12 @@ in
 {
   imports = [
     baseProfile
+    "${inputs.nixpkgs-ixp-manager}/nixos/modules/services/web-apps/ixp-manager.nix"
 
     ./deployment.nix
     ./users
 
     ../ixp-manager
-    ../../modules
   ];
 
   base.copyConfig.sources = ../..;

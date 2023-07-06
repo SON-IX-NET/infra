@@ -106,12 +106,29 @@
         "type": "github"
       }
     },
+    "nixpkgs-ixp-manager": {
+      "locked": {
+        "lastModified": 1688657228,
+        "narHash": "sha256-rGAjH8es6Oa3S9bu/vr674WrXkbpPq4kk2QP9xz3F/s=",
+        "owner": "NetaliDev",
+        "repo": "nixpkgs",
+        "rev": "c1008ad0982b5ee13874318604b015353530e40d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NetaliDev",
+        "ref": "ixp-manager",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "base-profile": "base-profile",
         "colmena": "colmena",
         "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-ixp-manager": "nixpkgs-ixp-manager"
       }
     },
     "stable": {

@@ -1,7 +1,0 @@
-{ ... }:
-
-{
-  imports = [
-    ./ixp-manager.nix
-  ];
-}
