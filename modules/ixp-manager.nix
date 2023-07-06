@@ -300,7 +300,6 @@ in
 
     systemd.services.ixp-manager-scheduler = {
       description = "IXP-Manager Scheduler";
-      #path = [ pkgs.unixtools.whereis ];
       serviceConfig = {
         Type = "oneshot";
         WorkingDirectory = package;
