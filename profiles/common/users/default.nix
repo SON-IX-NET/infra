@@ -6,6 +6,10 @@ let
     "fweber"
     "jwagner"
     "jgraul"
+    "ekeske"
+    "lgrams"
+    "ypaessler"
+    "sterzenbach"
   ];
 in
 {
