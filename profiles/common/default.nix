@@ -16,7 +16,28 @@ in
     ../ixp-manager
   ];
 
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "letsencrypt@wobcom.de";
+
+  services.fail2ban.enable = lib.mkForce false;
+
+  networking.domain = lib.mkDefault "infra.son-ix.net";
+
   base.copyConfig.sources = ../..;
   base.repositoryUrl = "https://git.wobcom.de/son-ix/sonixify";
-  base.nixcom.version = "nixcom-0.1";
+  base.nixcom.version = lib.mkDefault "nixcom-0.1";
+
+ # until colmena supports passing nixpkgs as a flake
+  system.nixos = let
+    self = inputs.nixpkgs;
+  in {
+    versionSuffix =
+    ".${lib.substring 0 8 (self.lastModifiedDate or self.lastModified or "19700101")}.${self.shortRev or "dirty"}";
+    revision = lib.mkIf (self ? rev) self.rev;
+  };
+
+  system.configurationRevision =
+    if inputs.self ? rev
+    then inputs.self.rev
+    else "dirty-${inputs.self.lastModifiedDate}";
 }

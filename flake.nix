@@ -24,8 +24,8 @@
       buildInputs = [
         pkgs.sops
         pkgs.colmena
+        pkgs.ssh-to-age
       ];
     };
-
   });
 }
