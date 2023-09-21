@@ -24,7 +24,7 @@ in
   networking.domain = lib.mkDefault "infra.son-ix.net";
 
   base.copyConfig.sources = ../..;
-  base.repositoryUrl = "https://git.wobcom.de/son-ix/sonixify";
+  base.repositoryUrl = "https://github.com/son-ix-net/infra";
   base.nixcom.version = lib.mkDefault "nixcom-0.1";
 
  # until colmena supports passing nixpkgs as a flake
