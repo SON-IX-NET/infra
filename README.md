@@ -11,6 +11,7 @@ Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and [age](ht
 ├── hive.nix     # contains the definition of all our machines
 ├── hosts        # contains our host-specific configuration (hostname, network, etc.)
 ├── profiles     # contains our profiles that we apply on hosts
+├── packages     # contains our packages/overrides for existing ones
 ```
 
 ## Preparations

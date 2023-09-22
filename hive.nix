@@ -8,6 +8,7 @@ inputs:
       system = "x86_64-linux";
       overlays = [
         (final: prev: { inherit (import inputs.nixpkgs-ixp-manager { system = prev.system; }) ixp-manager; })
+        (final: prev: import ./packages final prev)
       ];
     };
 
