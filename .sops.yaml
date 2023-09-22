@@ -22,6 +22,7 @@ creation_rules:
       - age:
           - *srv_ixpman
         pgp:
+          - *admin_jgraul
           - *admin_jwagner
           - *admin_fweber
           - *admin_ekeske
