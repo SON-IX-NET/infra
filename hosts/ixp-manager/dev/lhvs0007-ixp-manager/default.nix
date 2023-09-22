@@ -46,6 +46,7 @@ in
       enable = true;
       fqdn = "ixp-manager.lab.wobcom.de";
       useDNSACMEChallenge = true;
+      enableMRTG = false;
     };
   };
 }

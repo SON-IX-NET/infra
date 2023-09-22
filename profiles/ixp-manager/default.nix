@@ -23,23 +23,18 @@ in
         Use the DNS-01 ACME challenge for the TLS certificate.
       '';
     };
+
+    enableMRTG = mkOption {
+      type = types.bool;
+      default = true;
+      description = mdDoc ''
+        Enable MRTG and configure it with the IXP-Manager.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-    services.mysql = {
-      enable = true;
-      package = pkgs.mysql80;
-      settings.mysqld.log_bin_trust_function_creators = 1;
-      ensureDatabases = [ "ixpmanager" ];
-      ensureUsers = [
-        {
-          name = "ixpmanager";
-          ensurePermissions = { "ixpmanager.*" = "ALL PRIVILEGES"; };
-        }
-      ];
-    };
 
     base.acme.enable = cfg.useDNSACMEChallenge;
     base.acme.primaryDomain = mkIf cfg.useDNSACMEChallenge cfg.fqdn;
@@ -69,6 +64,7 @@ in
     services.ixp-manager = {
       enable = true;
       hostname = cfg.fqdn;
+      createDatabaseLocally = true;
       environmentFile = config.sops.secrets."ixp-manager.env".path;
       init = {
         adminUserName = "admin";
@@ -132,7 +128,7 @@ in
         fi
         $sudo ${phpPackage}/bin/php artisan $*
       '';
-    in {
+    in mkIf cfg.enableMRTG {
       description = "Multi-router Traffic Grapher";
       after = [ "ixp-manager-setup.service" ];
       wantedBy = [ "multi-user.target" ];
@@ -155,7 +151,7 @@ in
       };
     };
 
-    services.phpfpm.pools.ixp-manager.phpPackage = lib.mkForce (pkgs.php82.buildEnv {
+    services.phpfpm.pools.ixp-manager.phpPackage = mkIf cfg.enableMRTG (mkForce (pkgs.php82.buildEnv {
       extensions = ({ enabled, all }: enabled ++ (with all; [
         snmp
         rrd
@@ -166,15 +162,6 @@ in
         upload_max_filesize = 100M
         date.timezone = "${config.time.timeZone}"
       '';
-    });
-
-    systemd.services.ixp-manager-setup.serviceConfig.PermissionsStartOnly = true;
-    systemd.services.ixp-manager-setup.after = [ "mysql.service" ];
-    systemd.services.ixp-manager-setup.preStart = ''
-      ${config.security.sudo.package}/bin/sudo -u ${config.services.mysql.user} ${pkgs.mysql80}/bin/mysql -e \
-          "ALTER USER '${config.services.ixp-manager.settings.DB_USERNAME}'@'localhost' IDENTIFIED WITH mysql_native_password by '$DB_PASSWORD'; \
-          GRANT ALL ON \`${config.services.ixp-manager.settings.DB_DATABASE}\`.* TO '${config.services.ixp-manager.settings.DB_USERNAME}'@'localhost'; \
-          FLUSH PRIVILEGES;"
-    '';
+    }));
   };
 }
