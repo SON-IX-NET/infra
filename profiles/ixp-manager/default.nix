@@ -15,6 +15,14 @@ in
         The FQDN for the nginx vHost of the IXP-Manager.
       '';
     };
+
+    useDNSACMEChallenge = mkOption {
+      type = types.bool;
+      default = false;
+      description = mdDoc ''
+        Use the DNS-01 ACME challenge for the TLS certificate.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -32,6 +40,13 @@ in
         }
       ];
     };
+
+    base.acme.enable = cfg.useDNSACMEChallenge;
+    base.acme.primaryDomain = mkIf cfg.useDNSACMEChallenge cfg.fqdn;
+
+    security.acme.certs."${cfg.fqdn}".reloadServices = mkIf cfg.useDNSACMEChallenge [ "nginx.service" ];
+
+    users.users.nginx.extraGroups = mkIf cfg.useDNSACMEChallenge [ "acme" ];
 
     sops.secrets = {
       "ixp-manager-admin-pass" = {
@@ -70,7 +85,9 @@ in
       };
       nginx = {
         forceSSL = true;
-        enableACME = true;
+        enableACME = !cfg.useDNSACMEChallenge;
+        sslCertificate = mkIf cfg.useDNSACMEChallenge config.base.acme.fullChain;
+        sslCertificateKey = mkIf cfg.useDNSACMEChallenge config.base.acme.key;
       };
       settings = {
         APP_URL = "https://${cfg.fqdn}";
@@ -124,13 +141,14 @@ in
       preStart = ''
         ${artisanWrapper}/bin/artisan grapher:generate-configuration -B mrtg -O /var/lib/mrtg/ixpmanager.cfg
         echo "LibAdd: ${pkgs.rrdtool}/lib/perl5/site_perl" >> /var/lib/mrtg/ixpmanager.cfg
+        echo "NoDetach: Yes" >> /var/lib/mrtg/ixpmanager.cfg
       '';
       serviceConfig = {
         Type = "forking";
         RuntimeDirectory = "mrtg";
         StateDirectory = "mrtg";
         PIDFile = "/run/mrtg/mrtg.pid";
-        ExecStart = "${pkgs.mrtg}/bin/mrtg /var/lib/mrtg/ixpmanager.cfg --daemon --pid-file=/run/mrtg/mrtg.pid --lock-file=/run/mrtg/mrtg.lock --logging=/run/mrtg/mrtg.log --confcache-file=/var/lib/mrtg/mrtg.ok --debug=\"base,snpo,log\"";
+        ExecStart = "${pkgs.mrtg}/bin/mrtg /var/lib/mrtg/ixpmanager.cfg --daemon --pid-file=/run/mrtg/mrtg.pid --lock-file=/run/mrtg/mrtg.lock --confcache-file=/var/lib/mrtg/mrtg.ok --debug=\"base,snpo,log\"";
         ExecStartPost = "${pkgs.coreutils}/bin/sleep 0.5";  # yes, i know. but we have to wait for mrtg to populate the pid-files
         User = config.services.ixp-manager.user;
         Group = config.services.ixp-manager.group;
