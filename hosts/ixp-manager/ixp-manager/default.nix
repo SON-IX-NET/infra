@@ -27,6 +27,8 @@
 
   networking.hostName = "ixp-manager";
 
+  deployment.tags = [ "ixp-manager-prod" ];
+
   sops.defaultSopsFile = ./secrets.yaml;
 
   profiles.ixp-manager = {

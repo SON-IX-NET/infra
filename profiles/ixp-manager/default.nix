@@ -120,7 +120,7 @@ in
           date.timezone = "${config.time.timeZone}"
         '';
       };
-      artisanWrapper = pkgs.writeShellScriptBin "artisan" ''
+      artisanWrapper = pkgs.writeShellScriptBin "ixp-manager-artisan" ''
         cd ${package}
         sudo=exec
         if [[ "$USER" != ${config.services.ixp-manager.user} ]]; then
@@ -135,7 +135,7 @@ in
       environment.LANG = "C";
       path = [ pkgs.rrdtool ];
       preStart = ''
-        ${artisanWrapper}/bin/artisan grapher:generate-configuration -B mrtg -O /var/lib/mrtg/ixpmanager.cfg
+        ${artisanWrapper}/bin/ixp-manager-artisan grapher:generate-configuration -B mrtg -O /var/lib/mrtg/ixpmanager.cfg
         echo "LibAdd: ${pkgs.rrdtool}/lib/perl5/site_perl" >> /var/lib/mrtg/ixpmanager.cfg
         echo "NoDetach: Yes" >> /var/lib/mrtg/ixpmanager.cfg
       '';
