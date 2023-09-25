@@ -64,6 +64,7 @@ in
     services.ixp-manager = {
       enable = true;
       hostname = cfg.fqdn;
+      enableMRTG = cfg.enableMRTG;
       createDatabaseLocally = true;
       environmentFile = config.sops.secrets."ixp-manager.env".path;
       init = {
@@ -101,51 +102,6 @@ in
         IDENTITY_ORGNAME = "SON-IX";
         IDENTITY_CORPORATE_URL = "https://son-ix.net/";
         IDENTITY_BIGLOGO = "//son-ix.net/images/logos/sonix-darkgrey.svg";
-        GRAPHER_BACKENDS = "mrtg";
-        GRAPHER_BACKEND_MRTG_DBTYPE = "rrd";
-        GRAPHER_BACKEND_MRTG_WORKDIR = "/var/lib/mrtg";
-        GRAPHER_BACKEND_MRTG_LOGDIR = "/var/lib/mrtg";
-      };
-    };
-
-    systemd.services.mrtg = let
-      package = pkgs.ixp-manager.override {
-        dataDir = config.services.ixp-manager.dataDir;
-      };
-      phpPackage = pkgs.php82.buildEnv {
-        extraConfig = ''
-          log_errors = on
-          post_max_size = 100M
-          upload_max_filesize = 100M
-          date.timezone = "${config.time.timeZone}"
-        '';
-      };
-      artisanWrapper = pkgs.writeShellScriptBin "ixp-manager-artisan" ''
-        cd ${package}
-        sudo=exec
-        if [[ "$USER" != ${config.services.ixp-manager.user} ]]; then
-          sudo='exec /run/wrappers/bin/sudo -u ${config.services.ixp-manager.user}'
-        fi
-        $sudo ${phpPackage}/bin/php artisan $*
-      '';
-    in mkIf cfg.enableMRTG {
-      description = "Multi-router Traffic Grapher";
-      after = [ "ixp-manager-setup.service" ];
-      environment.LANG = "C";
-      path = [ pkgs.rrdtool ];
-      startAt = "*:0/5";
-      preStart = ''
-        ${artisanWrapper}/bin/ixp-manager-artisan grapher:generate-configuration -B mrtg -O /var/lib/mrtg/ixpmanager.cfg
-        sed -i '/RunAsDaemon/d' /var/lib/mrtg/ixpmanager.cfg
-        echo "LibAdd: ${pkgs.rrdtool}/lib/perl5/site_perl" >> /var/lib/mrtg/ixpmanager.cfg
-      '';
-      serviceConfig = {
-        Type = "simple";
-        RuntimeDirectory = "mrtg";
-        StateDirectory = "mrtg";
-        ExecStart = "${pkgs.mrtg}/bin/mrtg /var/lib/mrtg/ixpmanager.cfg --lock-file=/run/mrtg/mrtg.lock --confcache-file=/var/lib/mrtg/mrtg.ok --debug=\"base\"";
-        User = config.services.ixp-manager.user;
-        Group = config.services.ixp-manager.group;
       };
     };
 
