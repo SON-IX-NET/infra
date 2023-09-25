@@ -131,21 +131,19 @@ in
     in mkIf cfg.enableMRTG {
       description = "Multi-router Traffic Grapher";
       after = [ "ixp-manager-setup.service" ];
-      wantedBy = [ "multi-user.target" ];
       environment.LANG = "C";
       path = [ pkgs.rrdtool ];
+      startAt = "*:0/5";
       preStart = ''
         ${artisanWrapper}/bin/ixp-manager-artisan grapher:generate-configuration -B mrtg -O /var/lib/mrtg/ixpmanager.cfg
+        sed -i '/RunAsDaemon/d' /var/lib/mrtg/ixpmanager.cfg
         echo "LibAdd: ${pkgs.rrdtool}/lib/perl5/site_perl" >> /var/lib/mrtg/ixpmanager.cfg
-        echo "NoDetach: Yes" >> /var/lib/mrtg/ixpmanager.cfg
       '';
       serviceConfig = {
-        Type = "forking";
+        Type = "simple";
         RuntimeDirectory = "mrtg";
         StateDirectory = "mrtg";
-        PIDFile = "/run/mrtg/mrtg.pid";
-        ExecStart = "${pkgs.mrtg}/bin/mrtg /var/lib/mrtg/ixpmanager.cfg --daemon --pid-file=/run/mrtg/mrtg.pid --lock-file=/run/mrtg/mrtg.lock --confcache-file=/var/lib/mrtg/mrtg.ok --debug=\"base,snpo,log\"";
-        ExecStartPost = "${pkgs.coreutils}/bin/sleep 0.5";  # yes, i know. but we have to wait for mrtg to populate the pid-files
+        ExecStart = "${pkgs.mrtg}/bin/mrtg /var/lib/mrtg/ixpmanager.cfg --lock-file=/run/mrtg/mrtg.lock --confcache-file=/var/lib/mrtg/mrtg.ok --debug=\"base\"";
         User = config.services.ixp-manager.user;
         Group = config.services.ixp-manager.group;
       };
