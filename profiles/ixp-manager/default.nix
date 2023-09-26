@@ -23,14 +23,6 @@ in
         Use the DNS-01 ACME challenge for the TLS certificate.
       '';
     };
-
-    enableMRTG = mkOption {
-      type = types.bool;
-      default = true;
-      description = mdDoc ''
-        Enable MRTG and configure it with the IXP-Manager.
-      '';
-    };
   };
 
   config = mkIf cfg.enable {
@@ -64,7 +56,7 @@ in
     services.ixp-manager = {
       enable = true;
       hostname = cfg.fqdn;
-      enableMRTG = cfg.enableMRTG;
+      enableMRTG = true;
       createDatabaseLocally = true;
       environmentFile = config.sops.secrets."ixp-manager.env".path;
       init = {
@@ -104,18 +96,5 @@ in
         IDENTITY_BIGLOGO = "//son-ix.net/images/logos/sonix-darkgrey.svg";
       };
     };
-
-    services.phpfpm.pools.ixp-manager.phpPackage = mkIf cfg.enableMRTG (mkForce (pkgs.php82.buildEnv {
-      extensions = ({ enabled, all }: enabled ++ (with all; [
-        snmp
-        rrd
-      ]));
-      extraConfig = ''
-        log_errors = on
-        post_max_size = 100M
-        upload_max_filesize = 100M
-        date.timezone = "${config.time.timeZone}"
-      '';
-    }));
   };
 }
