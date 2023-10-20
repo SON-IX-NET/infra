@@ -108,11 +108,11 @@
     },
     "nixpkgs-ixp-manager": {
       "locked": {
-        "lastModified": 1695723553,
-        "narHash": "sha256-0pSuEqNJzPGzTuYWunk5Zvt5BV/8vdgdLg/fnQo4jbk=",
+        "lastModified": 1697843563,
+        "narHash": "sha256-M1qxKHmV1tx1zz/xagI4Tiq07aJmaHIdSHmlFLgGspg=",
         "owner": "NetaliDev",
         "repo": "nixpkgs",
-        "rev": "37cf51c4fa9127fd2bd018bfdb5aaa67e9882476",
+        "rev": "8967a79957fa40aca786b15decd42269f8d14676",
         "type": "github"
       },
       "original": {
