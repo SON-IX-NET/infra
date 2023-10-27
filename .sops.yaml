@@ -1,5 +1,4 @@
 keys:
-  - &admin_jgraul 462DEC62E6021BD396C66BEA144607B4C4EE1E6E
   - &admin_jwagner 73638BF054C93D18941BED7297DAE6CFAB9EA60E
   - &admin_fweber 9EB51E5A821A93B8A66BC925490A8C311EF6149D
   - &admin_ekeske B2703429F587B5F0F81F8FEEE1AF9E2D72F0420D
@@ -12,7 +11,6 @@ creation_rules:
       - age:
         - *srv_lhvs0007
         pgp:
-        - *admin_jgraul
         - *admin_jwagner
         - *admin_fweber
         - *admin_ekeske
@@ -22,7 +20,6 @@ creation_rules:
       - age:
           - *srv_ixpman
         pgp:
-          - *admin_jgraul
           - *admin_jwagner
           - *admin_fweber
           - *admin_ekeske

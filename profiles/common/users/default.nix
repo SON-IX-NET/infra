@@ -5,7 +5,6 @@ let
     "cdieckhoff"
     "fweber"
     "jwagner"
-    "jgraul"
     "ekeske"
     "lgrams"
     "ypaessler"
