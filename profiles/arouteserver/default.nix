@@ -11,6 +11,10 @@ let
         ip: "193.201.149.4"
         description: "WDZ GmbH"
         16bit_mapped_asn: 64512
+      - asn: 208395
+        ip: "2001:7f8:25::20:8395:1"
+        description: "WDZ GmbH"
+        16bit_mapped_asn: 64512
   '';
 
   generalConfig = pkgs.writeText "general.yml" ''
@@ -43,6 +47,8 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    networking.firewall.allowedTCPPorts = [ 179 ];
 
     environment.systemPackages = [
       pkgs.arouteserver

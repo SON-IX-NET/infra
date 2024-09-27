@@ -14,6 +14,7 @@ in
     ./users
 
     ../ixp-manager
+    ../arouteserver
   ];
 
   security.acme.acceptTerms = true;
