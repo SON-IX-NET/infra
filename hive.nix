@@ -19,4 +19,6 @@ inputs:
 
   lhvs0007-ixp-manager = ./hosts/ixp-manager/dev/lhvs0007-ixp-manager;
   ixp-manager = ./hosts/ixp-manager/ixp-manager;
+
+  route-server-cactus = ./hosts/route-server/cactus;
 }

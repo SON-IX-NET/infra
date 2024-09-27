@@ -3,16 +3,16 @@
     "base-profile": {
       "flake": false,
       "locked": {
-        "lastModified": 1686649094,
-        "narHash": "sha256-qPxa6adHuPmArfL5cTefdCr4NA1tX/eWCxQiIgcoEs4=",
-        "ref": "master-23.05",
-        "rev": "fb5192917f4d1f494fcdc4f625a79a45bec2a9d0",
-        "revCount": 143,
+        "lastModified": 1727173350,
+        "narHash": "sha256-XPYNPBdyHEByvDAdQRfwrkgem5uvCZfQ+qUKUL8uayA=",
+        "ref": "master-24.05",
+        "rev": "7de62b11c728724a19a02838aa1c09eec52efa10",
+        "revCount": 210,
         "type": "git",
         "url": "ssh://git@git.wobcom.de/wobcom/nix/base-profile.git"
       },
       "original": {
-        "ref": "master-23.05",
+        "ref": "master-24.05",
         "type": "git",
         "url": "ssh://git@git.wobcom.de/wobcom/nix/base-profile.git"
       }
@@ -92,16 +92,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1694499547,
-        "narHash": "sha256-R7xMz1Iia6JthWRHDn36s/E248WB1/je62ovC/dUVKI=",
+        "lastModified": 1727264057,
+        "narHash": "sha256-KQPI8CTTnB9CrJ7LrmLC4VWbKZfljEPBXOFGZFRpxao=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e5f018cf150e29aac26c61dac0790ea023c46b24",
+        "rev": "759537f06e6999e141588ff1c9be7f3a5c060106",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-23.05",
+        "ref": "nixos-24.05",
         "repo": "nixpkgs",
         "type": "github"
       }
