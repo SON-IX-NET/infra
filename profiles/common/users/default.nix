@@ -23,6 +23,10 @@ in
 
   config.base.users = lib.attrsets.genAttrs adminUsers (user: {
     isAdmin = true;
-  });
+  }) // {
+    jwagner.sshPublicKeys = lib.mkForce [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXilAU8ffa07ohXE5Q9GCUDb236MXUBE9VF8+QWK52Q johann.wagner@wobcom.de"
+    ];
+  };
 
 }
