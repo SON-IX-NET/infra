@@ -3,31 +3,17 @@
 with lib;
 
 let
-
-
-  clientConfig = pkgs.writeText "clients.yml" ''
-    clients:
-      - asn: 208395
-        ip: "193.201.149.4"
-        description: "WDZ GmbH"
-        16bit_mapped_asn: 64512
-      - asn: 208395
-        ip: "2001:7f8:25::20:8395:1"
-        description: "WDZ GmbH"
-        16bit_mapped_asn: 64512
-  '';
-
   generalConfig = pkgs.writeText "general.yml" ''
     cfg:
-      rs_as: 59552
-      router_id: "193.201.149.1"
+      rs_as: ${builtins.toString cfg.ownASN}
+      router_id: "${builtins.toString cfg.routerId}"
   '';
 
   arouteserverConfiguration = pkgs.writeText "arouteserver.yml" ''
     cfg_dir: "${pkgs.arouteserver-defaults}"
 
     cfg_general: "${generalConfig}"
-    cfg_clients: "${clientConfig}"
+    cfg_clients: "/var/lib/arouteserver/clients.yaml"
 
     cache_dir: "/var/cache/arouteserver"
 
@@ -43,10 +29,42 @@ in
   options.profiles.arouteserver = {
     enable = mkEnableOption "Enable arouteserver";
 
+    routerId = lib.mkOption {
+      type = types.str;
+    };
+
+    ownASN = lib.mkOption {
+      type = types.int;
+      default = 59552;
+    };
+
+    irrdUrl = lib.mkOption {
+      type = types.str;
+      default = "irrd.service.wobcom.de";
+    };
+
+    ixpManagerUrl = lib.mkOption {
+      type = types.str;
+      default = "ixp-manager.son-ix.net";
+    };
+
+    ixpId = lib.mkOption {
+      type = types.int;
+      default = 1;
+    };
 
   };
 
   config = mkIf cfg.enable {
+
+    sops.secrets = {
+      "arouteserver-ixp-manager-api-token" = {
+        owner = "arouteserver";
+        group = "arouteserver";
+        mode = "0400";
+      };
+    };
+      
 
     networking.firewall.allowedTCPPorts = [ 179 ];
 
@@ -83,7 +101,19 @@ in
       serviceConfig = {
         CacheDirectory = "arouteserver";
         StateDirectory = "arouteserver";
-        ExecStart = "${pkgs.arouteserver}/bin/arouteserver bird --cfg ${arouteserverConfiguration} -o /var/lib/arouteserver/bird2.conf";
+        ExecStart = pkgs.writeShellScript "arouteserver-config" ''
+          set -euo pipefail
+
+          url="https://${cfg.ixpManagerUrl}/api/v4/member-export/ixf/0.6?apikey=$(cat ${config.sops.secrets."arouteserver-ixp-manager-api-token".path})"
+          ixp_id=${builtins.toString cfg.ixpId}
+          
+          ${pkgs.arouteserver}/bin/arouteserver clients-from-euroix \
+                  --cfg ${arouteserverConfiguration} \
+                  -o /var/lib/arouteserver/clients.yaml \
+                  --url "$url" $ixp_id
+
+          ${pkgs.arouteserver}/bin/arouteserver bird --cfg ${arouteserverConfiguration} -o /var/lib/arouteserver/bird2.conf;
+        '';
         Type = "oneshot";
         User = "arouteserver";
         Group = "arouteserver";

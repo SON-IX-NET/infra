@@ -1,25 +1,35 @@
 keys:
-  - &admin_jwagner 8C420BD005B6C5B695C8E25D2E6784AC81BD6565
-  - &admin_fweber 9EB51E5A821A93B8A66BC925490A8C311EF6149D
-  - &admin_ekeske B2703429F587B5F0F81F8FEEE1AF9E2D72F0420D
-  - &srv_lhvs0007 age1eqlqdnl4cqm4y0tnq6mmwjrwt4n4nkurhy44jpa6fd44pax6cvcsd2nrcu
-  - &srv_ixpman age1suyzfm7w30qgx5un8ejv6ncfmg6nvlqz7lu95rasc7kg7t98vgpsnq4e7q
+- &admin_jwagner 8C420BD005B6C5B695C8E25D2E6784AC81BD6565
+- &admin_fweber 9EB51E5A821A93B8A66BC925490A8C311EF6149D
+- &admin_ekeske B2703429F587B5F0F81F8FEEE1AF9E2D72F0420D
+- &srv_lhvs0007 age1eqlqdnl4cqm4y0tnq6mmwjrwt4n4nkurhy44jpa6fd44pax6cvcsd2nrcu
+- &srv_ixpman age1suyzfm7w30qgx5un8ejv6ncfmg6nvlqz7lu95rasc7kg7t98vgpsnq4e7q
+- &srv_routeserver_cactus age1rrm5v5y7s09rs9y48gcgkcz32akn49wg8j3r470gc5zf7d7mcvnscqtdx5
 
 creation_rules:
-  - path_regex: hosts/ixp-manager/dev/lhvs0007-ixp-manager/secrets.yaml$
-    key_groups:
-      - age:
-        - *srv_lhvs0007
-        pgp:
-        - *admin_jwagner
-        - *admin_fweber
-        - *admin_ekeske
+- path_regex: hosts/ixp-manager/dev/lhvs0007-ixp-manager/secrets.yaml$
+  key_groups:
+  - age:
+    - *srv_lhvs0007
+    pgp:
+    - *admin_jwagner
+    - *admin_fweber
+    - *admin_ekeske
 
-  - path_regex: hosts/ixp-manager/ixp-manager/secrets.yaml$
-    key_groups:
-      - age:
-          - *srv_ixpman
-        pgp:
-          - *admin_jwagner
-          - *admin_fweber
-          - *admin_ekeske
+- path_regex: hosts/ixp-manager/ixp-manager/secrets.yaml$
+  key_groups:
+  - age:
+    - *srv_ixpman
+    pgp:
+    - *admin_jwagner
+    - *admin_fweber
+    - *admin_ekeske
+- path_regex: hosts/route-server/secrets.yaml$
+  key_groups:
+  - age:
+    - *srv_routeserver_cactus
+    pgp:
+    - *admin_jwagner
+    - *admin_fweber
+    - *admin_ekeske
+

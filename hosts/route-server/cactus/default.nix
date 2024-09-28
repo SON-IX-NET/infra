@@ -29,5 +29,8 @@
 
   networking.hostName = "route-server-cactus";
 
+  profiles.arouteserver = {
+    routerId = "193.201.149.1";
+  };
   system.stateVersion = "24.05";
 }
