@@ -18,7 +18,8 @@ inputs:
   defaults = ./profiles/common;
 
   lhvs0007-ixp-manager = ./hosts/ixp-manager/dev/lhvs0007-ixp-manager;
-  ixp-manager = ./hosts/ixp-manager/ixp-manager;
+  ihvs0546-ixp-manager = ./hosts/ixp-manager/ihvs0546-ixp-manager;
 
   route-server-cactus = ./hosts/route-server/cactus;
+  route-server-tumbleweed = ./hosts/route-server/tumbleweed;
 }

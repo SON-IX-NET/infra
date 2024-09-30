@@ -3,8 +3,9 @@ keys:
 - &admin_fweber 9EB51E5A821A93B8A66BC925490A8C311EF6149D
 - &admin_ekeske B2703429F587B5F0F81F8FEEE1AF9E2D72F0420D
 - &srv_lhvs0007 age1eqlqdnl4cqm4y0tnq6mmwjrwt4n4nkurhy44jpa6fd44pax6cvcsd2nrcu
-- &srv_ixpman age1suyzfm7w30qgx5un8ejv6ncfmg6nvlqz7lu95rasc7kg7t98vgpsnq4e7q
+- &srv_ihvs0546 age1suyzfm7w30qgx5un8ejv6ncfmg6nvlqz7lu95rasc7kg7t98vgpsnq4e7q
 - &srv_routeserver_cactus age1rrm5v5y7s09rs9y48gcgkcz32akn49wg8j3r470gc5zf7d7mcvnscqtdx5
+- &srv_routeserver_tumbleweed age1sgj4ufh79ks8032hq33hfradjpuh0k6dtffzrl5p9ry54pdpyutqzun9vu
 
 creation_rules:
 - path_regex: hosts/ixp-manager/dev/lhvs0007-ixp-manager/secrets.yaml$
@@ -16,10 +17,10 @@ creation_rules:
     - *admin_fweber
     - *admin_ekeske
 
-- path_regex: hosts/ixp-manager/ixp-manager/secrets.yaml$
+- path_regex: hosts/ixp-manager/ihvs0546-ixp-manager/secrets.yaml$
   key_groups:
   - age:
-    - *srv_ixpman
+    - *srv_ihvs0546
     pgp:
     - *admin_jwagner
     - *admin_fweber
@@ -28,6 +29,7 @@ creation_rules:
   key_groups:
   - age:
     - *srv_routeserver_cactus
+    - *srv_routeserver_tumbleweed
     pgp:
     - *admin_jwagner
     - *admin_fweber
