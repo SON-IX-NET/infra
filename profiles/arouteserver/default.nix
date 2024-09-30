@@ -66,7 +66,7 @@ in
     };
       
 
-    networking.firewall.allowedTCPPorts = [ 179 ];
+    networking.firewall.allowedTCPPorts = [ 179 29184 29186];
 
     environment.systemPackages = [
       pkgs.arouteserver
@@ -137,5 +137,12 @@ in
       after = [ "arouteserver-config.service" ];
       requires = [ "arouteserver-config.service" ];
     };
+
+    services.birdwatcher = {
+      enable = true;
+      settings = import ./birdwatcher-cfg.nix { inherit pkgs; management_network = "10.120.123.0/24"; };
+    };
+
+
   };
 }
