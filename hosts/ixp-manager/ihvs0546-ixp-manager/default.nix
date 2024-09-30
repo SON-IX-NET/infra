@@ -39,5 +39,20 @@
     fqdn = "ixp-manager.son-ix.net";
   };
 
+  services.ixp-manager.settings = {
+    AUTH_PEERINGDB_ENABLED = "true";
+    PEERINGDB_OAUTH_REDIRECT = "https://ixp-manager.son-ix.net/auth/login/peeringdb/callback";
+    PEERINGDB_OAUTH_CLIENT_ID = "$PEERINGDB_OAUTH_CLIENT_ID";
+    PEERINGDB_OAUTH_CLIENT_SECRET = "$PEERINGDB_OAUTH_CLIENT_SECRET";
+    MAIL_MAILER = "smtp";
+    MAIL_HOST = "smarthost.service.wobcom.de";
+    MAIL_PORT = "465";
+    MAIL_ENCRYPTION = "tls";
+    MAIL_USERNAME = "$MAIL_USERNAME";
+    MAIL_PASSWORD = "$MAIL_PASSWORD";
+    IXP_API_PEERING_DB_USERNAME = "$IXP_API_PEERING_DB_USERNAME";
+    IXP_API_PEERING_DB_PASSWORD = "$IXP_API_PEERING_DB_PASSWORD";
+  };
+
   system.stateVersion = "23.05";
 }
