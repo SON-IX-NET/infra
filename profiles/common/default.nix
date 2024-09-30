@@ -8,7 +8,7 @@ in
 {
   imports = [
     baseProfile
-    "${inputs.nixpkgs-ixp-manager}/nixos/modules/services/web-apps/ixp-manager.nix"
+    ../../modules/ixp-manager.nix
 
     ./deployment.nix
     ./users

@@ -3,4 +3,5 @@ final: prev: {
   aggregate6 = final.callPackage ./aggregate6.nix { };
   arouteserver = final.callPackage ./arouteserver.nix { };
   arouteserver-defaults = final.callPackage ./arouteserver-defaults.nix { };
+  ixp-manager = final.callPackage ./ixp-manager.nix { };
 }

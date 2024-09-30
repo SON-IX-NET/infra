@@ -8,7 +8,6 @@
     base-profile.flake = false;
     colmena.url = "github:zhaofengli/colmena/stable";
     colmena.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-ixp-manager.url = "github:NetaliDev/nixpkgs/ixp-manager";
   };
 
   outputs = { self, nixpkgs, colmena, flake-utils, ... }@inputs: {
