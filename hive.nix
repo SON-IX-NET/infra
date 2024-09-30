@@ -22,4 +22,6 @@ inputs:
 
   route-server-cactus = ./hosts/route-server/cactus;
   route-server-tumbleweed = ./hosts/route-server/tumbleweed;
+
+  lg-hydrangea = ./hosts/lg/hydrangea;
 }
