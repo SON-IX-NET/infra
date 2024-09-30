@@ -3,9 +3,10 @@
 {
   imports =
     [
+      ./hardware-configuration.nix
       ../default.nix
     ];
-  base.nixcom.version = "nixcom-0.1";
+  base.nixcom.version = null;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
