@@ -10,6 +10,7 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    systemd.services.alice-lg.restartTriggers = [ config.environment.etc."alice-lg/alice.conf".source ];
     services.alice-lg = {
       enable = true;
       settings = {
