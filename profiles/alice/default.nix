@@ -17,23 +17,45 @@ in
           listen_http = "127.0.0.1:7340";
 
         };
-        "source.cactus" = {
-          name = "cactus";
+        "source.cactus_v4" = {
+          name = "cactus (IPv4)";
         };
-        "source.cactus.birdwatcher" = {
+        "source.cactus_v4.birdwatcher" = {
           api = "http://10.120.123.9:29184";
           type = "multi_table";
           peer_table_prefix = "T";
           pipe_protocol_prefix = "M";
+          main_table = "master4";
         };
-        "source.tumbleweed" = {
-          name = "tumbleweed";
+        "source.cactus_v6" = {
+          name = "cactus (IPv6)";
         };
-        "source.tumbleweed.birdwatcher" = {
+        "source.cactus_v6.birdwatcher" = {
+          api = "http://10.120.123.9:29184";
+          type = "multi_table";
+          peer_table_prefix = "T";
+          pipe_protocol_prefix = "M";
+          main_table = "master6";
+        };
+        "source.tumbleweed_v4" = {
+          name = "tumbleweed (IPv4)";
+        };
+        "source.tumbleweed_v4.birdwatcher" = {
           api = "http://10.120.123.10:29184";
           type = "multi_table";
           peer_table_prefix = "T";
           pipe_protocol_prefix = "M";
+          main_table = "master4";
+        };
+        "source.tumbleweed_v6" = {
+          name = "tumbleweed (IPv6)";
+        };
+        "source.tumbleweed_v6.birdwatcher" = {
+          api = "http://10.120.123.10:29184";
+          type = "multi_table";
+          peer_table_prefix = "T";
+          pipe_protocol_prefix = "M";
+          main_table = "master6";
         };
       };
     };
