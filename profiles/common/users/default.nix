@@ -9,6 +9,7 @@ let
     "lgrams"
     "ypaessler"
     "sterzenbach"
+    "kgrziwok"
   ];
 in
 {
