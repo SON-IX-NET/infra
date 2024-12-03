@@ -27,15 +27,15 @@ in
         "source.cactus_v4.birdwatcher" = {
           api = "http://10.120.123.9:29184";
           type = "single_table";
-          main_table = "master4";
+          main_table = "master";
         };
         "source.cactus_v6" = {
           name = "cactus (IPv6)";
         };
         "source.cactus_v6.birdwatcher" = {
-          api = "http://10.120.123.9:29184";
+          api = "http://10.120.123.9:29186";
           type = "single_table";
-          main_table = "master6";
+          main_table = "master";
         };
         "source.tumbleweed_v4" = {
           name = "tumbleweed (IPv4)";
@@ -43,15 +43,15 @@ in
         "source.tumbleweed_v4.birdwatcher" = {
           api = "http://10.120.123.10:29184";
           type = "single_table";
-          main_table = "master4";
+          main_table = "master";
         };
         "source.tumbleweed_v6" = {
           name = "tumbleweed (IPv6)";
         };
         "source.tumbleweed_v6.birdwatcher" = {
-          api = "http://10.120.123.10:29184";
+          api = "http://10.120.123.10:29186";
           type = "single_table";
-          main_table = "master6";
+          main_table = "master";
         };
       };
     };
