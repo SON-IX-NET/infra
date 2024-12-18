@@ -79,7 +79,7 @@ ttl = 5 # time to live (in minutes) for caching of cli output
 #   protocol versions into a single API.
 # When dualstack is set to false, birdwatcher will use the presence or absense
 #   of the "-6" CLI flag to set a protocol stack to query for
-dualstack = false
+dualstack = true
 
 [bird6]
 listen = "0.0.0.0:29186"
@@ -90,7 +90,7 @@ ttl = 5 # time to live (in minutes) for caching of cli output
 #   protocol versions into a single API.
 # When dualstack is set to false, birdwatcher will use the presence or absense
 #   of the "-6" CLI flag to set a protocol stack to query for
-#dualstack = true
+dualstack = true
 
 [parser]
 # Remove fields e.g. interface
