@@ -7,6 +7,46 @@ let
     cfg:
       rs_as: ${builtins.toString cfg.ownASN}
       router_id: "${builtins.toString cfg.routerId}"
+      communities:
+        do_not_announce_to_any:
+          std: "0:rs_as"
+          lrg: "rs_as:0:0"
+        do_not_announce_to_peer:
+          std: "0:peer_as"
+          lrg: "rs_as:0:peer_as"
+        announce_to_peer:
+          std: "rs_as:peer_as"
+          lrg: "rs_as:rs_as:peer_as"
+        prepend_once_to_any:
+          std: "65501:rs_as"
+          lrg: "rs_as:65501:0"
+        prepend_twice_to_any:
+          std: "65502:rs_as"
+          lrg: "rs_as:65502:0"
+        prepend_thrice_to_any:
+          std: "65503:rs_as"
+          lrg: "rs_as:65503:0"
+        prepend_once_to_peer:
+          lrg: "rs_as:101:peer_as"
+        prepend_twice_to_peer:
+          lrg: "rs_as:102:peer_as"
+        prepend_thrice_to_peer:
+          lrg: "rs_as:103:peer_as"
+        add_noexport_to_peer:
+          lrg: "rs_as:901:peer_as"
+        add_noadvertise_to_peer:
+          lrg: "rs_as:902:peer_as"
+      custom_communities:
+        from_lower_saxony:
+          lrg: "rs_as:200:100"
+        from_wolfsburg:
+          lrg: "rs_as:200:101"
+        from_brunswick:
+          lrg: "rs_as:200:102"
+        from_hanover:
+          lrg: "rs_as:200:103"
+        from_goettingen:
+          lrg: "rs_as:200:104"
   '';
 
   arouteserverConfiguration = pkgs.writeText "arouteserver.yml" ''
