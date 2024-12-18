@@ -142,46 +142,5 @@ in
       enable = true;
       settings = import ./birdwatcher-cfg.nix { inherit pkgs; management_network = "10.120.123.0/24"; };
     };
-
-    systemd.services.birdwatcher_v6 = {
-      wants = [ "network.target" ];
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Birdwatcher IPv6";
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        RestartSec = 15;
-        ExecStart = "${pkgs.birdwatcher}/bin/birdwatcher -6";
-        StateDirectoryMode = "0700";
-        UMask = "0117";
-        NoNewPrivileges = true;
-        ProtectSystem = "strict";
-        PrivateTmp = true;
-        PrivateDevices = true;
-        ProtectHostname = true;
-        ProtectClock = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
-        ProtectKernelLogs = true;
-        ProtectControlGroups = true;
-        RestrictAddressFamilies = [ "AF_UNIX AF_INET AF_INET6" ];
-        LockPersonality = true;
-        MemoryDenyWriteExecute = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
-        PrivateMounts = true;
-        SystemCallArchitectures = "native";
-        SystemCallFilter = "~@clock @privileged @cpu-emulation @debug @keyring @module @mount @obsolete @raw-io @reboot @setuid @swap";
-        BindReadOnlyPaths = [
-          "-/etc/resolv.conf"
-          "-/etc/nsswitch.conf"
-          "-/etc/ssl/certs"
-          "-/etc/static/ssl/certs"
-          "-/etc/hosts"
-          "-/etc/localtime"
-        ];
-      };
-    };
   };
 }
