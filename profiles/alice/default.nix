@@ -21,35 +21,19 @@ in
         noexport = {
           load_on_demand = true;
         };
-        "source.cactus_v4" = {
-          name = "cactus (IPv4)";
+        "source.cactus" = {
+          name = "cactus";
         };
-        "source.cactus_v4.birdwatcher" = {
+        "source.cactus.birdwatcher" = {
           api = "http://10.120.123.9:29184";
           type = "single_table";
           main_table = "master";
         };
-        "source.cactus_v6" = {
-          name = "cactus (IPv6)";
+        "source.tumbleweed" = {
+          name = "tumbleweed";
         };
-        "source.cactus_v6.birdwatcher" = {
-          api = "http://10.120.123.9:29186";
-          type = "single_table";
-          main_table = "master";
-        };
-        "source.tumbleweed_v4" = {
-          name = "tumbleweed (IPv4)";
-        };
-        "source.tumbleweed_v4.birdwatcher" = {
+        "source.tumbleweed.birdwatcher" = {
           api = "http://10.120.123.10:29184";
-          type = "single_table";
-          main_table = "master";
-        };
-        "source.tumbleweed_v6" = {
-          name = "tumbleweed (IPv6)";
-        };
-        "source.tumbleweed_v6.birdwatcher" = {
-          api = "http://10.120.123.10:29186";
           type = "single_table";
           main_table = "master";
         };
