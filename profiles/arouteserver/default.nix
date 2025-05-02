@@ -7,7 +7,12 @@ let
     cfg:
       rs_as: ${builtins.toString cfg.ownASN}
       router_id: "${builtins.toString cfg.routerId}"
+      filtering:
+        reject_policy:
+          policy: tag_and_reject
       communities:
+        reject_cause:
+          lrg: rs_as:1001:dyn_val
         do_not_announce_to_any:
           std: "0:rs_as"
           lrg: "rs_as:0:0"
